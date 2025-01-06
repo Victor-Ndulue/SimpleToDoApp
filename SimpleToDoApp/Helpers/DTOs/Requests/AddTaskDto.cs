@@ -1,8 +1,10 @@
-﻿namespace SimpleToDoApp.Helpers.DTOs.Requests;
+﻿using SimpleToDoApp.Helpers.Enums;
+
+namespace SimpleToDoApp.Helpers.DTOs.Requests;
 
 public record AddTaskDto
 (
     string title, string? description,
-    bool isDailyRecurring, DateOnly dueDate,
-    TimeOnly dueTime
+    TaskRepetitionInterval recurrence, 
+    DateOnly dueDate, TimeOnly dueTime
 );
