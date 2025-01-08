@@ -5,8 +5,8 @@ namespace SimpleToDoApp.Helpers.DTOs.Responses;
 
 public record TaskResponse
 (
-    string taskId, string title, 
-    string? description, TaskStatus taskStatus,
-    TaskRepetitionInterval recurrence, 
-    DateOnly dueDate, TimeOnly dueTime
+    string? taskId, string? title, 
+    string? description, TaskStatus? taskStatus,
+    TaskRepetitionInterval? recurrence, 
+    DateTime? dueDateTime
 );

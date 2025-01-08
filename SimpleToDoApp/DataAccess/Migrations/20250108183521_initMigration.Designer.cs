@@ -12,8 +12,8 @@ using SimpleToDoApp.DataAccess.DataContext;
 namespace SimpleToDoApp.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250108092632_authPropMigration")]
-    partial class authPropMigration
+    [Migration("20250108183521_initMigration")]
+    partial class initMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

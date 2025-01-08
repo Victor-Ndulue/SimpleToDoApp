@@ -16,6 +16,7 @@ using SimpleToDoApp.Helpers.DTOs.Responses;
 using SimpleToDoApp.Helpers.ObjectWrapper;
 using SimpleToDoApp.IServiceRepo;
 using SimpleToDoApp.ServiceRepo;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace SimpleToDoApp.Extensions;
@@ -165,10 +166,11 @@ public static class ServiceCollectionExtension
 
     public static void
         ConfigureAuthServices
-        (this IServiceCollection services, IConfiguration configuration)
+        (this IServiceCollection services)
     {
-        var validIssuer = configuration.GetValue<string>(key: "validIssuer");
-        var validAudience = configuration.GetValue<string>(key: "validAudience");
+        var validIssuer = Environment.GetEnvironmentVariable("JwtSettings_validIssuer");
+        var validAudience = Environment.GetEnvironmentVariable("JwtSettings_validAudience");
+        var signingKey = Environment.GetEnvironmentVariable("JwtSettings_TokenKey");
 
         // Configure JWT authentication
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -176,7 +178,7 @@ public static class ServiceCollectionExtension
             {
                 // Set the issuer and audience validation parameters
                 options.Authority = validIssuer; // The URL of the issuer (e.g., Identity Provider)
-                options.RequireHttpsMetadata = true; // Enforce HTTPS in production
+                options.RequireHttpsMetadata = false; // Enforce HTTPS in production
                 options.Audience = validAudience; // Audience that the token should be for
 
                 // Define the token validation parameters
@@ -191,9 +193,8 @@ public static class ServiceCollectionExtension
                     ValidateLifetime = true, // Ensure the token is not expired
                     ClockSkew = TimeSpan.Zero, // No tolerance for expiration time (optional)
 
-                    // Optionally, validate the signing key if you have it
-                    // ValidateIssuerSigningKey = true,
-                    // IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-signing-key"))
+                     ValidateIssuerSigningKey = true,
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey))
                 };
             });
     }
