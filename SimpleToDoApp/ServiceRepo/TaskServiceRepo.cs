@@ -13,4 +13,25 @@ public sealed class TaskServiceRepo : ITaskServiceRepo
     {
         throw new NotImplementedException();
     }
+
+    public Task<StandardResponse<TaskResponse>> 
+        DeleteTasksAsync
+        (string taskId, string? userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<StandardResponse<IQueryable<TaskResponse>>> 
+        GetUserTask
+        (string? userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<StandardResponse<string>> 
+        UpdateUserTaskAsync
+        (UpdateTaskDto updateTaskDto, string? userId)
+    {
+        throw new NotImplementedException();
+    }
 }

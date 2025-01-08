@@ -6,5 +6,5 @@ public record AddTaskDto
 (
     string title, string? description,
     TaskRepetitionInterval recurrence, 
-    DateOnly dueDate, TimeOnly dueTime
+    DateTime? dueDateTime
 );

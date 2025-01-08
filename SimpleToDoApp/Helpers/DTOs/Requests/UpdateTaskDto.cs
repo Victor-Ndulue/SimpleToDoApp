@@ -7,6 +7,5 @@ public record UpdateTaskDto
 (
     string taskId, string title, 
     string? description, TaskRepetitionInterval recurrence,
-    TaskStatus? taskStatus, DateOnly dueDate, 
-    TimeOnly dueTime
+    TaskStatus? taskStatus, DateTime? dueDateTime
 );

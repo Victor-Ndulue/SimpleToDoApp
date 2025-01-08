@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +10,9 @@ using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
 using SimpleToDoApp.DataAccess.DataContext;
 using SimpleToDoApp.Extensions.Configs;
+using SimpleToDoApp.Helpers.DataValidations;
+using SimpleToDoApp.Helpers.DTOs.Responses;
+using SimpleToDoApp.Helpers.ObjectWrapper;
 using SimpleToDoApp.IServiceRepo;
 using SimpleToDoApp.ServiceRepo;
 using System.Text.Json.Serialization;
@@ -36,7 +41,26 @@ public static class ServiceCollectionExtension
                 .Select().Filter().OrderBy()
                 .SetMaxTop(50)
                 .Count().Expand())
-                .AddXmlDataContractSerializerFormatters();
+                .AddXmlDataContractSerializerFormatters()
+                .ConfigureApiBehaviorOptions(opts =>
+                opts.InvalidModelStateResponseFactory = context =>
+                {
+                    var errors = context.ModelState
+                        .Where(ms => ms.Value.Errors.Any())
+                        .SelectMany(ms => ms.Value.Errors
+                        .Select(e => new ValidationError
+                        {
+                            FieldName = ms.Key,
+                            ErrorMessage = e.ErrorMessage
+                        }))
+                        .ToList();
+
+                    return new BadRequestObjectResult
+                    (
+                        StandardResponse<IEnumerable<ValidationError>>.Failed
+                        (data: errors, errorMessage: "One or more validation errors occurred", 400)
+                    );
+                }); ;
     }
 
     public static void
@@ -171,6 +195,15 @@ public static class ServiceCollectionExtension
                     // IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-signing-key"))
                 };
             });
+    }
+
+    public static void
+        RegisterFluentValidation
+        (this IServiceCollection services)
+    {
+
+        services.AddValidatorsFromAssemblyContaining<AddTaskDtoValidation>();
+
     }
 
     private static IEdmModel

@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using SimpleToDoApp.Extensions;
 using SimpleToDoApp.LogConfiguration;
 using SimpleToDoApp.Middlewares;
@@ -8,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.ConfigureControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.RegisterFluentValidation();
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureApiVersioning();
 builder.Services.ConfigureSwaggerGen();
