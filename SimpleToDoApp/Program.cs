@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureControllers();
 builder.Services.RegisterFluentValidation();
-builder.Services.AddFluentValidationAutoValidation();
 builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureApiVersioning();
 builder.Services.ConfigureSwaggerGen();
