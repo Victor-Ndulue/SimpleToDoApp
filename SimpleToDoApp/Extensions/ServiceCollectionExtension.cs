@@ -1,6 +1,8 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
@@ -68,6 +70,8 @@ public static class ServiceCollectionExtension
         (this IServiceCollection services)
     {
         services.AddScoped<ITaskServiceRepo, TaskServiceRepo>();
+        services.AddScoped<IMailServiceRepo, MailServiceRepo>();
+        services.AddScoped<IAuthServiceRepo, AuthServiceRepo>();
     }
 
     public static void
