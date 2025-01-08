@@ -30,8 +30,8 @@ public static class SharedDtoValidation
         return ruleBuilder
         .Must(date => !date.HasValue || IsValidDateFormat(date.Value))
         .WithMessage("Please enter a valid date in the format yyyy-MM-ddTHH:mm:ss")
-        .Must(date => !date.HasValue || date <= DateTime.UtcNow.AddHours(1))
-        .WithMessage("The date cannot be in the future");
+        .Must(date => !date.HasValue || date > DateTime.UtcNow.AddHours(1))
+        .WithMessage("The date cannot be in the past or present");
     }
     private static bool IsValidDateFormat(DateTime date)
     {

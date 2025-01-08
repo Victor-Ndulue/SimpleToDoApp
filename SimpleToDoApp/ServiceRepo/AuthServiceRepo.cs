@@ -214,7 +214,6 @@ public sealed class AuthServiceRepo : IAuthServiceRepo
         return StandardResponse<string>.Success(successMsg);
     }
 
-
     private async Task<string>
         ValidateAccountCreationDto
         (AccountCreationDto accountCreationDto)
@@ -222,24 +221,11 @@ public sealed class AuthServiceRepo : IAuthServiceRepo
         //The Password validation is placed ahead of asynchronous call to ensure it runs and not skipped
         string? errorMsg = accountCreationDto switch
         {
-            { password: var password } when ValidatePasswordPolicy(password) => "Password requires: Eight(8) characters. \n One(1) number.\n And alphanumeric ",
             { userEmail: var email } when await _appUsers.AnyAsync(user => user.Email == email) => "Email address already exists",
             { userName: var username } when await _appUsers.AnyAsync(user => user.Username == username) => "Username already taken",
             _ => string.Empty
         };
         return errorMsg;
-    }
-
-    /// <summary>
-    /// Validates if the password meets complexity requirements.
-    /// </summary>
-    /// <param name="password">The password to validate.</param>
-    /// <returns>True if valid, otherwise false.</returns>
-    private bool ValidatePasswordPolicy
-        (string password)
-    {
-        string pattern = @"^(?=.*[a-zA-Z])(?=.*\d).{8,}$";
-        return Regex.IsMatch(password, pattern);
     }
 
     private string

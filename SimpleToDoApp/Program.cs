@@ -1,4 +1,4 @@
-using FluentValidation.AspNetCore;
+using Microsoft.Extensions.Options;
 using SimpleToDoApp.Extensions;
 using SimpleToDoApp.LogConfiguration;
 using SimpleToDoApp.Middlewares;
@@ -9,13 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.ConfigureControllers();
-builder.Services.RegisterFluentValidation();
-builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureApiVersioning();
+builder.Services.AddApplicationServices();
 builder.Services.ConfigureSwaggerGen();
+builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.ConfigureEmailConfig(builder.Configuration);
-builder.Services.AddApplicationServices();
+builder.Services.ConfigureAuthServices();
+builder.Services.RegisterFluentValidation();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
