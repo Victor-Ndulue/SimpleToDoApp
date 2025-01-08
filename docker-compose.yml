@@ -1,0 +1,6 @@
+services:
+  simpletodoapp:
+    image: ${DOCKER_REGISTRY-}simpletodoapp
+    build:
+      context: .
+      dockerfile: SimpleToDoApp/Dockerfile
