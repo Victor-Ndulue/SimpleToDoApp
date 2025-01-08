@@ -13,6 +13,7 @@ builder.Services.ConfigureDbContext(builder.Configuration);
 builder.Services.ConfigureApiVersioning();
 builder.Services.ConfigureSwaggerGen();
 builder.Services.ConfigureJWT(builder.Configuration);
+builder.Services.ConfigureEmailConfig(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -26,8 +27,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.ConfigureExceptionHandler();
 app.UseEventLogMiddleware();
+app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
 

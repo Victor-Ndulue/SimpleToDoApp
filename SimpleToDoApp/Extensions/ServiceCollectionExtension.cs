@@ -129,6 +129,16 @@ public static class ServiceCollectionExtension
     }
 
     public static void
+        ConfigureEmailConfig
+        (this IServiceCollection services, IConfigurationBuilder configurationBuilder)
+    {
+        IConfiguration configuration = configurationBuilder
+            .AddEnvironmentVariables("PAYBIGISMTP__")
+            .Build();
+        services.Configure<EmailConfig>(configuration);
+    }
+
+    public static void
         ConfigureAuthServices
         (this IServiceCollection services, IConfiguration configuration)
     {

@@ -39,8 +39,6 @@ public sealed class AuthServiceRepo : IAuthServiceRepo
     {
         string? validationErrorMsg = await ValidateAccountCreationDto(accountCreationDto);
 
-        bool validatePassword = ValidatePasswordPolicy(accountCreationDto.password);
-
         if (!string.IsNullOrWhiteSpace(validationErrorMsg))
         {
             return StandardResponse<string>.Failed(data: null, errorMessage: validationErrorMsg);
@@ -69,7 +67,7 @@ public sealed class AuthServiceRepo : IAuthServiceRepo
         (SignInDto signInDto)
     {
         string errorMsg = "Invalid credentials";
-        var user = await _appUsers.FindAsync(signInDto.userName);
+        var user = await _appUsers.FirstOrDefaultAsync(user=> user.Username == signInDto.userName);
         if (user is null)
             return StandardResponse<string>.Failed(data: null, errorMessage: errorMsg);
         var pwHasher = new PasswordHasher<string>();
@@ -88,7 +86,7 @@ public sealed class AuthServiceRepo : IAuthServiceRepo
        ResetPasswordAsync
        (string userEmail)
     {
-        var user = await _appUsers.FindAsync(userEmail);
+        var user = await _appUsers.FirstOrDefaultAsync(u=>u.Email == userEmail);
         string errorMsg = "Invalid User Credentials";
         if (user is not null)
         {
@@ -113,7 +111,7 @@ public sealed class AuthServiceRepo : IAuthServiceRepo
         ResetPasswordWIthOtpAsync
         (ResetPasswordWIthOtpParams resetPasswordWIthOtpParams)
     {
-        var user = await _appUsers.FindAsync(resetPasswordWIthOtpParams.userEmail);
+        var user = await _appUsers.FirstOrDefaultAsync(u=> u.Email == resetPasswordWIthOtpParams.userEmail);
         string? errorMsg = string.Empty;
         if (user is null)
         {
@@ -138,7 +136,7 @@ public sealed class AuthServiceRepo : IAuthServiceRepo
     {
         string senderEmail = "paybigie@gmail.com";
         string? mailSubject = "OTP Confirmation";
-        string? mailBody = $"Kindly use the otp: {otp} to complete your request.\n The otp expires after 5 minutes.";
+        string? mailBody = $"Dear {userName}, \n \n Kindly use the otp: {otp} to complete your request.\n The otp expires after 5 minutes.";
         bool isHtml = true;
         string? mailTemplateName = string.Empty;
 
@@ -221,15 +219,12 @@ public sealed class AuthServiceRepo : IAuthServiceRepo
         ValidateAccountCreationDto
         (AccountCreationDto accountCreationDto)
     {
+        //The Password validation is placed ahead of asynchronous call to ensure it runs and not skipped
         string? errorMsg = accountCreationDto switch
         {
+            { password: var password } when ValidatePasswordPolicy(password) => "Password requires: Eight(8) characters. \n One(1) number.\n And alphanumeric ",
             { userEmail: var email } when await _appUsers.AnyAsync(user => user.Email == email) => "Email address already exists",
             { userName: var username } when await _appUsers.AnyAsync(user => user.Username == username) => "Username already taken",
-            { password: var password } when ValidatePasswordPolicy(password) => errorMsg =
-            "Password requires: " +
-            "Eight(8) characters. \n" +
-            "One(1) number.\n" +
-            "And alphanumeric ",
             _ => string.Empty
         };
         return errorMsg;
