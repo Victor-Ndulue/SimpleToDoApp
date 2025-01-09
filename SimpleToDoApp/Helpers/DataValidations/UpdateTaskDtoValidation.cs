@@ -8,6 +8,7 @@ public class UpdateTaskDtoValidation : AbstractValidator<UpdateTaskDto>
     public UpdateTaskDtoValidation()
     {
         RuleFor(task => task.taskId).RequiredField();
+        RuleFor(task=> task.title).RequiredField();
         RuleFor(task => task.dueDateTime).ValidOptionalDateTime();
     }
 }

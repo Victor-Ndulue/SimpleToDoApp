@@ -39,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.RunMigrationAsync();
+//await app.RunMigrationAsync();
 
 app.Run();

@@ -11,11 +11,14 @@ public static class SharedDtoValidation
         return ruleBuilder
             .NotEmpty().WithMessage("This field cannot be empty.");
     }
-    public static IRuleBuilder<T, string?> ValidOptionalEmailAddress<T>(this IRuleBuilder<T, string?> ruleBuilder)
+    public static IRuleBuilder<T, string?> 
+        ValidOptionalEmailAddress<T>
+        (this IRuleBuilder<T, string?> ruleBuilder)
     {
         string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         return ruleBuilder.Matches(pattern).WithMessage("Please enter a valid email address");
     }
+
     public static IRuleBuilder<T, string?> ValidatePassword<T>
         (this IRuleBuilder<T, string?> ruleBuilder)
     {
@@ -23,6 +26,7 @@ public static class SharedDtoValidation
         string errorMessage = "Password must contain at least 8 characters, one uppercase, one lowercase, one number and one special character";
         return ruleBuilder.Matches(validPattern).WithMessage(errorMessage);
     }
+
     public static IRuleBuilderOptions<T, DateTime?> 
         ValidOptionalDateTime<T>
         (this IRuleBuilder<T, DateTime?> ruleBuilder)

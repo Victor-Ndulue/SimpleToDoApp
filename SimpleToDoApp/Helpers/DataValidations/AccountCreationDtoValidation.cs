@@ -8,7 +8,8 @@ public class AccountCreationDtoValidation:AbstractValidator<AccountCreationDto>
     public AccountCreationDtoValidation()
     {
         RuleFor(dto=>dto.userName).RequiredField();
-        RuleFor(dto => dto.userEmail).RequiredField();
-        RuleFor(dto => dto.password).RequiredField();
+        RuleFor(dto => dto.userEmail).ValidOptionalEmailAddress();
+        RuleFor(dto => dto.password).RequiredField()
+            .ValidatePassword();
     }
 }

@@ -7,8 +7,10 @@ public class ResetPasswordWIthOtpParamsValidation:AbstractValidator<ResetPasswor
 {
     public ResetPasswordWIthOtpParamsValidation()
     {
-        RuleFor(dto =>dto.userEmail).RequiredField();
+        RuleFor(dto =>dto.userEmail).RequiredField()
+            .ValidOptionalEmailAddress();
         RuleFor(dto => dto.otp).RequiredField();
-        RuleFor(dto => dto.newPassword).RequiredField();
+        RuleFor(dto => dto.newPassword).RequiredField()
+            .ValidatePassword();
     }
 }
