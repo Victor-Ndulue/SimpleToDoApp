@@ -1,4 +1,3 @@
-using Microsoft.Extensions.Options;
 using SimpleToDoApp.Extensions;
 using SimpleToDoApp.LogConfiguration;
 using SimpleToDoApp.Middlewares;
@@ -23,11 +22,9 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseEventLogMiddleware();
 app.ConfigureExceptionHandler();
