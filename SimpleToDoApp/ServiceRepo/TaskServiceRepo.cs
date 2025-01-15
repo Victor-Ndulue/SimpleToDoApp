@@ -64,7 +64,8 @@ public sealed class TaskServiceRepo : ITaskServiceRepo
         (string? userId)
     {
         var tasks = await _toDoTasks.Where(task => task.AppUserId == userId)
-            .AsNoTracking().ToListAsync();
+            .AsNoTracking()
+            .ToListAsync();
         return tasks
             .Select(task => new TaskResponse
             (
