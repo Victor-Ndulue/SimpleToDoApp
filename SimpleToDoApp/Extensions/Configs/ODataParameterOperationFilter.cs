@@ -17,72 +17,72 @@ public class ODataParameterOperationFilter : IOperationFilter
         {
             operation.Parameters.Add(new OpenApiParameter()
             {
-                Name = "$filter",
+                Name = "filter",
                 In = ParameterLocation.Query,
-                Description = "The $filter OData query option allows clients to filter a collection of resources that are addressed by a request URL. Example: `Name eq 'Task1'`",
+                Description = "The filter OData query option allows clients to filter a collection of resources that are addressed by a request URL. Example: `Name eq 'Task1'`",
                 Required = false,
                 Example = new OpenApiString("title eq 'Task1'")
             });
 
             operation.Parameters.Add(new OpenApiParameter()
             {
-                Name = "$select",
+                Name = "select",
                 In = ParameterLocation.Query,
-                Description = "The $select OData query option allows clients to specify column names. Example: `Name,DueDate`",
+                Description = "The select OData query option allows clients to specify column names. Example: `Name,DueDate`",
                 Required = false,
                 Example = new OpenApiString("taskID,title")
             });
 
             operation.Parameters.Add(new OpenApiParameter()
             {
-                Name = "$orderby",
+                Name = "orderby",
                 In = ParameterLocation.Query,
-                Description = "The $orderby OData query option allows clients to specify sort parameters. Example: `DueDate desc`",
+                Description = "The orderby OData query option allows clients to specify sort parameters. Example: `DueDate desc`",
                 Required = false,
                 Example = new OpenApiString("dueDateTime desc")
             });
 
             operation.Parameters.Add(new OpenApiParameter()
             {
-                Name = "$count",
+                Name = "count",
                 In = ParameterLocation.Query,
-                Description = "The $count OData query option allows clients to return row counts. Example: `true`",
+                Description = "The count OData query option allows clients to return row counts. Example: `true`",
                 Required = false,
                 Example = new OpenApiString("true")
             });
 
             operation.Parameters.Add(new OpenApiParameter()
             {
-                Name = "$top",
+                Name = "top",
                 In = ParameterLocation.Query,
-                Description = "The $top OData query option allows clients to specify pagination page size parameters. Example: `10`",
+                Description = "The top OData query option allows clients to specify pagination page size parameters. Example: `10`",
                 Required = false,
                 Example = new OpenApiString("10")
             });
 
             operation.Parameters.Add(new OpenApiParameter()
             {
-                Name = "$skip",
+                Name = "skip",
                 In = ParameterLocation.Query,
-                Description = "The $skip OData query option allows clients to specify pagination limit parameters. Example: `5`",
+                Description = "The skip OData query option allows clients to specify pagination limit parameters. Example: `5`",
                 Required = false,
                 Example = new OpenApiString("5")
             });
 
             operation.Parameters.Add(new OpenApiParameter()
             {
-                Name = "$expand",
+                Name = "expand",
                 In = ParameterLocation.Query,
-                Description = "The $expand OData query option allows clients to expand nested entities. Example: `Tasks,Subtasks`",
+                Description = "The expand OData query option allows clients to expand nested entities. Example: `Tasks,Subtasks`",
                 Required = false,
                 Example = new OpenApiString("Tasks,Subtasks")
             });
 
             operation.Parameters.Add(new OpenApiParameter()
             {
-                Name = "$format",
+                Name = "format",
                 In = ParameterLocation.Query,
-                Description = "The $format OData query option allows clients to specify response formats. Options include json,xml. Example: `json`",
+                Description = "The format OData query option allows clients to specify response formats. Options include json,xml. Example: `json`",
                 Required = false,
                 Example = new OpenApiString("json")
             });
