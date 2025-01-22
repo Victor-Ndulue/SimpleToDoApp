@@ -38,11 +38,12 @@ public static class ServiceCollectionExtension
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 })
-                .AddOData(options => options
+                .AddOData (options => options
                 .AddRouteComponents("odata", GetAppCoreModel())
                 .Select().Filter().OrderBy()
                 .SetMaxTop(50)
-                .Count().Expand())
+                .Count().Expand()
+                .EnableNoDollarQueryOptions = true)
                 .AddXmlDataContractSerializerFormatters()
                 .ConfigureApiBehaviorOptions(opts =>
                 opts.InvalidModelStateResponseFactory = context =>
@@ -130,7 +131,6 @@ public static class ServiceCollectionExtension
         };
             options.AddSecurityRequirement(securityRequirement);
         });
-
     }
 
     public static void 
